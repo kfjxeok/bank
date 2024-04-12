@@ -20,4 +20,6 @@ public class CardHistory {
     @ManyToOne
     @JoinColumn(name = "card")
     private Card card ;
+
+
 }

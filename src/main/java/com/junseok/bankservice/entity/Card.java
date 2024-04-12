@@ -28,9 +28,11 @@ public class Card {
     private Date expiration_date;
 
     @ManyToOne
-    @JoinColumn(name = "deposit_account")
+    @JoinColumn(name = "deposit_account_id")
     private DepositAccount depositAccount ;
 
-    @OneToMany(mappedBy = "card_history")
+    @OneToMany(mappedBy = "card")
     private List<CardHistory> cardHistories = new ArrayList<>();
+
+
 }

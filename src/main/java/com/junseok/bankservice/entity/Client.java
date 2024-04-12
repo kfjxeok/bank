@@ -18,7 +18,7 @@ public class Client {
     private String clientName;
     private int clientBirth;
     private  int residentNum;
-    private int phoneNum;
+    private String phoneNum;
     private  int clientAddress;
     private  String clientEmail;
     private  int clientJob;
@@ -27,7 +27,7 @@ public class Client {
 
     @OneToMany(mappedBy = "client")
     private List<DepositAccount> depositAccounts = new ArrayList<>();
-    public Client(String clientName, String clientEmail, String passWord, int phoneNum){
+    public Client(String clientName, String clientEmail, String passWord, String phoneNum){
         this.clientName=clientName;
         this.clientEmail=clientEmail;
         this.passWord=passWord;

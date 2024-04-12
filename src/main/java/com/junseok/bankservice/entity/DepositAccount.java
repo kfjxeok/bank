@@ -27,10 +27,12 @@ public class DepositAccount {
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @OneToMany(mappedBy = "card")
-    private List<Card> card = new ArrayList<>();
+    @OneToMany(mappedBy = "depositAccount")
+    private List<Card> cards = new ArrayList<>();
 
-    @OneToMany(mappedBy = "account_history")
+    @OneToMany(mappedBy = "depositAccount")
     private List<AccountHistory> accountHistories = new ArrayList<>();
+
+
 
 }

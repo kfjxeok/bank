@@ -23,6 +23,8 @@ public class AccountHistory {
     private String account_income_time;
 
     @ManyToOne
-    @JoinColumn(name = "deposit_account")
+    @JoinColumn(name = "deposit_account_id")
     private DepositAccount depositAccount ;
+
+
 }
