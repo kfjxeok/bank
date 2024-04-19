@@ -12,14 +12,16 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 import java.util.stream.Collectors;
+import org.springframework.security.core.GrantedAuthority;
 
 @Component
 public class TokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60;    //1시간
+    private final String secretKey="BreBwDr04WCe6jlHjHJkuD23kkyMGHEgC03epQUFkqTzSev9uGqVGytY2FrQyxjlzYNyn48nixZsZrNWuXDBOQ==";
     private final Key key;
-    public TokenProvider(@Value("${jwt.secret}") String secretKey) {
+    public TokenProvider() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }

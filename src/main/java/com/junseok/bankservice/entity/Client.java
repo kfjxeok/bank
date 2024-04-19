@@ -3,6 +3,7 @@ package com.junseok.bankservice.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class Client {
     private  int clientJob;
     private String loginId;
     private String passWord;
+    private SimpleGrantedAuthority authority;
 
     @OneToMany(mappedBy = "client")
     private List<DepositAccount> depositAccounts = new ArrayList<>();
