@@ -3,21 +3,26 @@ package com.junseok.bankservice.service;
 
 import com.junseok.bankservice.dto.LoginDto;
 import com.junseok.bankservice.dto.SignupDTO;
+import com.junseok.bankservice.dto.TokenDTO;
 import com.junseok.bankservice.entity.Client;
 import com.junseok.bankservice.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LoginService {
+
+    private final AuthenticationManagerBuilder managerBuilder;
     @Autowired
     private ClientRepository clientRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
     public String Signup(SignupDTO signupDTO){
-        if(clientRepository.findByClientEmail(signupDTO.getClientEmail())==null){
-            return "이미 가입되어 있는 이메일입니다.";
+        if(clientRepository.findByClientEmail(signupDTO.getClientEmail())!=null){
+            return "already assigned email.";
         }
         String clientName=signupDTO.getClientName();
         String clientEmail=signupDTO.getClientEmail();
@@ -28,22 +33,14 @@ public class LoginService {
         Client client=new Client(clientName,clientEmail,passWord,phoneNum);
         clientRepository.save(client);
 
-    return "성공" ;
+    return "success" ;
     }
-    public String login(LoginDto loginDto){
-        String clientEmail=loginDto.getClientEmail();
-        String passWord= loginDto.getPassWord();
 
-        Client client=clientRepository.findByClientEmail(clientEmail);
-        if (client.getPassWord().equals(passWord)){
-            return client.getClientName();
-            //System.out.println("비밀번호일치");
-
-        }
-        else{
-            return "fail";
-        }
-        //System.out.println(client);
+    public TokenDTO login(LoginDto loginDto) {
+        UsernamePasswordAuthenticationToken authenticationToken = loginDto.toAuthentication();
+        Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
+        //궁극적으로 만들어야 할 SpringSecurity 출입증.
+        return tokenProvider.generateTokenDto(authentication);
     }
 
 }

@@ -1,6 +1,5 @@
 package com.junseok.bankservice.config;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,11 +10,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.IpAddressMatcher;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Configuration
+@EnableWebSecurity
 @Component
 public class WebSecurityConfig {
     @Bean
@@ -28,10 +27,11 @@ public class WebSecurityConfig {
         http.httpBasic(AbstractHttpConfigurer::disable);
         http.csrf(AbstractHttpConfigurer::disable);
         http.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.authorizeRequests()
-                .antMatchers("/login/**").permitAll()
-                .anyRequest().authenticated();
+        http.authorizeHttpRequests((authorizeRequests) -> authorizeRequests
+                .requestMatchers("/login/**").permitAll()
+                .anyRequest().permitAll());
 
         return http.build();
     }
 }
+
