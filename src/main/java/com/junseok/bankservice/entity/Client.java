@@ -22,10 +22,10 @@ public class Client {
     private String phoneNum;
     private  int clientAddress;
     private  String clientEmail;
-    private  int clientJob;
     private String loginId;
     private String passWord;
-    private SimpleGrantedAuthority authority;
+    private Authority authority;
+    private double point;
 
     @OneToMany(mappedBy = "client")
     private List<DepositAccount> depositAccounts = new ArrayList<>();

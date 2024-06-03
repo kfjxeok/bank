@@ -4,6 +4,7 @@ package com.junseok.bankservice.service;
 import com.junseok.bankservice.dto.LoginDto;
 import com.junseok.bankservice.dto.SignupDTO;
 import com.junseok.bankservice.dto.TokenDTO;
+import com.junseok.bankservice.entity.Authority;
 import com.junseok.bankservice.entity.Client;
 import com.junseok.bankservice.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class LoginService {
     }
 
     public String Signup(SignupDTO signupDTO){
-        if(clientRepository.findByClientEmail(signupDTO.getClientEmail())!=null){
+        if(clientRepository.existsByClientEmail(signupDTO.getClientEmail())){
             return "already assigned email.";
         }
         String clientName=signupDTO.getClientName();
@@ -38,8 +39,8 @@ public class LoginService {
         String accountNum=signupDTO.getAccountNum();
         String phoneNum=signupDTO.getPhoneNum();
         Client client=new Client(clientName,clientEmail,passWord,phoneNum);
+        client.setAuthority(Authority.ROLE_USER);
         clientRepository.save(client);
-
     return "success" ;
     }
 
