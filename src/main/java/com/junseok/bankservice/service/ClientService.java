@@ -17,13 +17,14 @@ public class ClientService {
     public MypageDTO getUserInfo(String clientEmail){
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println(userId);
-        /*Optional<Client> client = clientRepository.findById(u);
+        Optional<Client> client1 = clientRepository.findByClientEmail(userId);
+        Client client = client1.get();
         MypageDTO mypageDTO = new MypageDTO();
         mypageDTO.setName(client.getClientName());
         mypageDTO.setEmail(client.getClientEmail());
         mypageDTO.setPhone_num(client.getPhoneNum());
         mypageDTO.setLoginId(client.getLoginId());
-        mypageDTO.setPoint(client.getPoint());*/
-        return null;
+        mypageDTO.setPoint(client.getPoint());
+        return mypageDTO;
     }
 }

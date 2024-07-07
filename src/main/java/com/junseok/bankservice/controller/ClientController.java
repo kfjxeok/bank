@@ -27,7 +27,7 @@ public class ClientController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
         String tokenLoginId = tokenProvider.getUsernameFromToken(token); //
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(clientService.getUserInfo(tokenLoginId));
+        return ResponseEntity.status(HttpStatus.OK).body(clientService.getUserInfo(tokenLoginId));
     }
     
 }

@@ -39,6 +39,7 @@ public class WebSecurityConfig {
         http.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                 .requestMatchers("/login/login").permitAll()
+                .requestMatchers("/giftcard").permitAll()
                 .anyRequest().authenticated());
         JwtFilter jwtFilter = new JwtFilter(tokenProvider);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
