@@ -74,6 +74,7 @@ public class TokenProvider {
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
                 .tokenExpiresIn(tokenExpiresIn.getTime())
+                .role(authorities)
                 .build();
     }
     private Claims parseClaims(String accessToken) {

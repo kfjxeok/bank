@@ -17,5 +17,5 @@ public class GiftcardEntity {
     String name;
     int amount;
     int point;
-
+    int count;
 }

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GiftcardRepository extends JpaRepository<GiftcardEntity, Integer> {
-
+    GiftcardEntity findByName (String name);
 
 }

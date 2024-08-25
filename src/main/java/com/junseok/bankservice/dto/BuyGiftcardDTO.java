@@ -3,10 +3,8 @@ package com.junseok.bankservice.dto;
 import lombok.Getter;
 
 @Getter
-public class CreateGiftcardDTO {
+public class BuyGiftcardDTO {
     String name;
-    int amount;
-    int point;
     int count;
 
 }

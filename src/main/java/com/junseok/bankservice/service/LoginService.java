@@ -39,7 +39,18 @@ public class LoginService {
         String accountNum=signupDTO.getAccountNum();
         String phoneNum=signupDTO.getPhoneNum();
         Client client=new Client(clientName,clientEmail,passWord,phoneNum);
-        client.setAuthority(Authority.ROLE_USER);
+        String customertype=signupDTO.getCustomertype();
+        if (customertype.equals("customer"))
+        {
+            client.setAuthority(Authority.ROLE_USER);
+        } else if (customertype.equals("master"))
+        {
+            client.setAuthority(Authority.ROLE_MASTER);
+        }
+        else
+        {
+            return "권한을 선택해 주세요.";
+        }
         clientRepository.save(client);
     return "success" ;
     }

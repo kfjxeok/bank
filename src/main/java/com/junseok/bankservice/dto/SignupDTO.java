@@ -11,4 +11,5 @@ public class SignupDTO {
     private String passWord;
     private String phoneNum;
     private String accountNum;
+    private String customertype;
 }
