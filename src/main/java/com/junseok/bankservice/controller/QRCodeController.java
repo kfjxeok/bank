@@ -8,10 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -21,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/generateQRCode")
 public class QRCodeController {
 
     @Autowired
@@ -32,18 +30,17 @@ public class QRCodeController {
     @Autowired
     private GiftcardService giftcardService;
 
-    @GetMapping("/generateQRCode")
+    @GetMapping
     public ResponseEntity<Map<String, String>> generateQRCode(@RequestHeader("Authorization") String accessToken, @RequestParam String giftCardName) {
         try {
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
             if (!giftcardService.doesClientOwnGiftcard(username, giftCardName)) {
                 return ResponseEntity.status(403).body(null);
             }
 
             String token = tokenProvider.generateTokenWithGiftCard(username, giftCardName);
 
-            BufferedImage qrImage = qrCodeService.generateQRCode(token, 200, 200);
+            BufferedImage qrImage = qrCodeService.generateQRCode(token,giftCardName, 200, 200);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(qrImage, "png", baos);
@@ -61,6 +58,21 @@ public class QRCodeController {
             return ResponseEntity.ok().headers(headers).body(response);
         } catch (Exception e) {
             return ResponseEntity.status(500).build();
+        }
+    }
+    @PostMapping("/useGiftCard")
+    public ResponseEntity<String> useGiftCard(@RequestParam String token) {
+        try {
+            String username = tokenProvider.getUsernameFromToken(token);
+            System.out.println(username);
+            String giftCardName = tokenProvider.getGiftCardNameFromToken(token);
+            System.out.println(giftCardName);
+
+            ResponseEntity<String> response = qrCodeService.useGiftCard(username,giftCardName);
+
+            return response;
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("기프트카드 사용 중 오류가 발생했습니다.5");
         }
     }
 }

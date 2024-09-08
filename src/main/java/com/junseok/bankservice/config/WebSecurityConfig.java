@@ -42,6 +42,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/login/signup").permitAll()
                 .requestMatchers("/giftcard").permitAll()
                 .requestMatchers("/giftcard/buy").permitAll()
+                .requestMatchers("/generateQRCode/useGiftCard").permitAll()
                 .anyRequest().authenticated());
         JwtFilter jwtFilter = new JwtFilter(tokenProvider);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
