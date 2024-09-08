@@ -3,8 +3,6 @@ package com.junseok.bankservice.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,27 +16,28 @@ public class Client {
 
     private String clientName;
     private int clientBirth;
-    private  int residentNum;
+    private int residentNum;
     private String phoneNum;
-    private  int clientAddress;
-    private  String clientEmail;
+    private int clientAddress;
+    private String clientEmail;
     private String loginId;
     private String passWord;
     private Authority authority;
     private double point;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<DepositAccount> depositAccounts = new ArrayList<>();
-    public Client(String clientName, String clientEmail, String passWord, String phoneNum){
-        this.clientName=clientName;
-        this.clientEmail=clientEmail;
-        this.passWord=passWord;
-        this.phoneNum=phoneNum;
 
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private List<ClientGiftcard> clientGiftcards = new ArrayList<>(); // 1:N 관계 설정
 
+    public Client(String clientName, String clientEmail, String passWord, String phoneNum) {
+        this.clientName = clientName;
+        this.clientEmail = clientEmail;
+        this.passWord = passWord;
+        this.phoneNum = phoneNum;
     }
 
     public Client() {
-
     }
 }

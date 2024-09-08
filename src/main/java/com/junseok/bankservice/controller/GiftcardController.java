@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/giftcard")
+@RequestMapping("/giftcard" +
+        "")
 
 public class GiftcardController {
     @Autowired
@@ -28,8 +29,7 @@ public class GiftcardController {
     {
         return giftcardService.getGiftcardlist();
     }
-    @PostMapping
-
+    @PostMapping("/buy")
     public String buyGiftcard(@RequestBody BuyGiftcardDTO buyGiftcardDTO)
     {
         return giftcardService.BuyGiftcard(buyGiftcardDTO);

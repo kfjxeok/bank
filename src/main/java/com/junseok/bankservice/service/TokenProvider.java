@@ -12,9 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -97,6 +95,22 @@ public class TokenProvider {
 
         UserDetails principal = new User(claims.getSubject(), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+    }
+    public String generateTokenWithGiftCard(String username, String giftCardName) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() +  1000 * 60 * 60 * 60);
+        //60일.
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("username", username);
+        claims.put("giftCardName", giftCardName);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .compact();
     }
 
 
